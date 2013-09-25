@@ -1,5 +1,6 @@
 set number
 set nowrap
+set showcmd
 
 set cindent
 let Tlist_Use_Horiz_Window = 0
@@ -18,3 +19,9 @@ let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype  in popup window
 let OmniCpp_GlobalScopeSearch=1
 let OmniCpp_DisplayMode=1
 let OmniCpp_DefaultNamespaces=["std"]
+
+" About the GUI
+set t_Co=256
+nmap <F7> :colorscheme desert<CR>
+nmap <F8> :colorscheme solarized<CR>
+nmap <F9> :colorscheme peaksea<CR>
