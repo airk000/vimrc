@@ -1,5 +1,5 @@
 set number
-set nowrap
+" set nowrap
 set showcmd
 
 set cindent
@@ -21,7 +21,9 @@ let OmniCpp_DisplayMode=1
 let OmniCpp_DefaultNamespaces=["std"]
 
 " About the GUI
-set t_Co=256
+" set t_Co=256
+colorscheme peaksea
+
 nmap <F7> :colorscheme desert<CR>
-nmap <F8> :colorscheme solarized<CR>
-nmap <F9> :colorscheme peaksea<CR>
+nmap <F8> :colorscheme peaksea<CR>
+" nmap <F9> :colorscheme solarized<CR>
