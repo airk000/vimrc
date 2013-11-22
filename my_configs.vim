@@ -27,3 +27,10 @@ colorscheme peaksea
 nmap <F7> :colorscheme desert<CR>
 nmap <F8> :colorscheme peaksea<CR>
 " nmap <F9> :colorscheme solarized<CR>
+
+set expandtab
+set shiftwidth=4
+
+set listchars=tab:>-,trail:.
+nmap <F9> :set list<CR>
+nmap <F10> :set nolist<CR>
