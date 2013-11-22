@@ -32,5 +32,7 @@ set expandtab
 set shiftwidth=4
 
 set listchars=tab:>-,trail:.
-nmap <F9> :set list<CR>
-nmap <F10> :set nolist<CR>
+set list
+
+nmap <F10> :set list<CR>
+nmap <F9> :set nolist<CR>
