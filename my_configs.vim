@@ -3,9 +3,9 @@ filetype plugin indent on
 
 set completeopt=menuone,longest,preview
 " Python
-autocmd FileType python setlocal shiftwidth=4 tabstop=4 expandtab
-autocmd FileType python map <buffer> <f5> :w<cr>:!python %<cr>
-autocmd FileType python set omnifunc=jedi#completions
+au FileType python setlocal shiftwidth=4 tabstop=4 expandtab
+au FileType python map <buffer> <f5> :w<cr>:!python %<cr>
+au FileType python set omnifunc=jedi#completions
 
 " Supertab
 let g:SuperTabDefaultComletionType = "context"
