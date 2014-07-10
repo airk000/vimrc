@@ -1,3 +1,19 @@
+syntax on
+filetype plugin indent on
+
+set completeopt=menuone,longest,preview
+" Python
+autocmd FileType python setlocal shiftwidth=4 tabstop=4 expandtab
+autocmd FileType python map <buffer> <f5> :w<cr>:!python %<cr>
+autocmd FileType python set omnifunc=jedi#completions
+
+" Supertab
+let g:SuperTabDefaultComletionType = "context"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+
+" Python Dictionary
+let g:pydiction_location = "/usr/share/vim/vim74/ftplugin/python.vim"
+
 set number
 " set nowrap
 set showcmd
@@ -9,7 +25,6 @@ map <F5> :TlistToggle<CR>
 map <F6> :NERDTreeToggle<CR>
 
 "-- omnicppcomplete setting --
-set completeopt=menu,menuone
 let OmniCpp_MayCompleteDot = 1 " autocomplete with .
 let OmniCpp_MayCompleteArrow = 1 " autocomplete with ->
 let OmniCpp_MayCompleteScope = 1 " autocomplete with ::
