@@ -37,14 +37,14 @@ let OmniCpp_DefaultNamespaces=["std"]
 
 " About the GUI
 " set t_Co=256
-colorscheme peaksea
+colorscheme desert
 
-nmap <F7> :colorscheme desert<CR>
-nmap <F8> :colorscheme peaksea<CR>
+"nmap <F7> :colorscheme desert<CR>
+"nmap <F8> :colorscheme peaksea<CR>
 " nmap <F9> :colorscheme solarized<CR>
 
 set listchars=tab:>-,trail:.
-set list
+"set list
 
 nmap <F10> :set list<CR>
 nmap <F9> :set nolist<CR>
