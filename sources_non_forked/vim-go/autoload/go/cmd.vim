@@ -2,6 +2,16 @@ if !exists("g:go_jump_to_error")
     let g:go_jump_to_error = 1
 endif
 
+if !exists("g:go_dispatch_enabled")
+    let g:go_dispatch_enabled = 0
+endif
+
+function! go#cmd#autowrite()
+    if &autowrite == 1
+        silent wall
+    endif
+endfunction
+
 function! go#cmd#Run(bang, ...)
     let goFiles = '"' . join(go#tool#Files(), '" "') . '"'
 
@@ -23,7 +33,11 @@ function! go#cmd#Run(bang, ...)
         let &makeprg = "go run " . expand(a:1)
     endif
 
-    exe 'make!'
+    if g:go_dispatch_enabled && exists(':Make') == 2
+        silent! exe 'Make!'
+    else
+        exe 'make!'
+    endif
     if !a:bang
         cwindow
         let errors = getqflist()
@@ -40,10 +54,17 @@ endfunction
 function! go#cmd#Install(...)
     let pkgs = join(a:000, '" "')
     let command = 'go install "' . pkgs . '"'
+    call go#cmd#autowrite()
     let out = go#tool#ExecuteInDir(command)
     if v:shell_error
         call go#tool#ShowErrors(out)
         cwindow
+        let errors = getqflist()
+        if !empty(errors)
+            if g:go_jump_to_error
+                cc 1 "jump to first error if there is any
+            endif
+        endif
         return
     endif
 
@@ -64,7 +85,11 @@ function! go#cmd#Build(bang, ...)
     endif
 
     echon "vim-go: " | echohl Identifier | echon "building ..."| echohl None
-    silent! exe 'make!'
+    if g:go_dispatch_enabled && exists(':Make') == 2
+        silent! exe 'Make'
+    else
+        silent! exe 'make!'
+    endif
     redraw!
     if !a:bang
         cwindow
@@ -94,6 +119,11 @@ function! go#cmd#Test(compile, ...)
         let command .= expand(a:1)
     endif
 
+    if len(a:000) == 2
+        let command .= a:2
+    endif
+
+    call go#cmd#autowrite()
     if a:compile
         echon "vim-go: " | echohl Identifier | echon "compiling tests ..." | echohl None
     else
@@ -124,11 +154,43 @@ function! go#cmd#Test(compile, ...)
     endif
 endfunction
 
+function! go#cmd#TestFunc(...)
+    " search flags legend (used only)
+    " 'b' search backward instead of forward
+    " 'c' accept a match at the cursor position
+    " 'n' do Not move the cursor
+    " 'W' don't wrap around the end of the file
+    "
+    " for the full list
+    " :help search
+    let test = search("func Test", "bcnW")
+
+    if test == 0
+        echo "vim-go: [test] no test found immediate to cursor"
+        return
+    end
+
+    let line = getline(test)
+    let name = split(split(line, " ")[1], "(")[0]
+    let flag = "-run \"" . name . "$\""
+
+    let a1 = ""
+    if len(a:000)
+        let a1 = a:1
+
+        " add extra space
+        let flag = " " . flag
+    endif
+
+    call go#cmd#Test(0, a1, flag)
+endfunction
+
 function! go#cmd#Coverage(...)
     let l:tmpname=tempname()
 
     let command = "go test -coverprofile=".l:tmpname
 
+    call go#cmd#autowrite()
     let out = go#tool#ExecuteInDir(command)
     if v:shell_error
         call go#tool#ShowErrors(out)
@@ -152,6 +214,7 @@ function! go#cmd#Coverage(...)
 endfunction
 
 function! go#cmd#Vet()
+    call go#cmd#autowrite()
     echon "vim-go: " | echohl Identifier | echon "calling vet..." | echohl None
     let out = go#tool#ExecuteInDir('go vet')
     if v:shell_error
