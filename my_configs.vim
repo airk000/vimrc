@@ -2,17 +2,10 @@ syntax on
 filetype plugin indent on
 
 set completeopt=menuone,longest,preview
-" Python
-au FileType python setlocal shiftwidth=4 tabstop=4 expandtab
-au FileType python map <buffer> <f5> :w<cr>:!python %<cr>
-au FileType python set omnifunc=jedi#completions
 
 " Supertab
 let g:SuperTabDefaultComletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
-
-" Python Dictionary
-let g:pydiction_location = "/usr/share/vim/vim74/ftplugin/python.vim"
 
 set number
 " set nowrap
@@ -23,18 +16,6 @@ let Tlist_Use_Horiz_Window = 0
 let Tlist_Use_Right_Window = 1
 map <F5> :TlistToggle<CR>
 map <F6> :NERDTreeToggle<CR>
-
-"-- omnicppcomplete setting --
-let OmniCpp_MayCompleteDot = 1 " autocomplete with .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete with ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete with ::
-let OmniCpp_SelectFirstItem = 2 " select first item (but don't insert)
-let OmniCpp_NamespaceSearch = 2 " search namespaces in this and included files
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype  in popup window
-let OmniCpp_GlobalScopeSearch=1
-let OmniCpp_DisplayMode=1
-let OmniCpp_DefaultNamespaces=["std"]
-
 " About the GUI
 " set t_Co=256
 colorscheme desert
@@ -44,10 +25,14 @@ colorscheme desert
 " nmap <F9> :colorscheme solarized<CR>
 
 set listchars=tab:>-,trail:.
-"set list
+
+set nolist
 
 nmap <F10> :set list<CR>
 nmap <F9> :set nolist<CR>
 nmap <F8> :TagbarToggle<CR>
 
-let g:neocomplete#enable_at_startup=1
+" Golang stuff
+let g:neocomplete#enable_at_startup = 1
+let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+autocmd FileType go setlocal omnifunc=go#complete#Complete
