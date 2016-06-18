@@ -48,3 +48,6 @@ set listchars=tab:>-,trail:.
 
 nmap <F10> :set list<CR>
 nmap <F9> :set nolist<CR>
+nmap <F8> :TagbarToggle<CR>
+
+let g:neocomplete#enable_at_startup=1
